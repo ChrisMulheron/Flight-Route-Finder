@@ -112,7 +112,7 @@ public class partCDEF extends FlightData {
 
 		System.out.println("");
 
-		// call flightProgram where the user can interact with the program
+		// call flightProgram function where the user can interact with the program
 		flightProgram(airport);
 
 	}
@@ -125,11 +125,11 @@ public class partCDEF extends FlightData {
 		System.out.println("");
 		// create a set routes of the edges in airport
 		Set<FlightData> routes = airport.edgeSet();
-		// iterate through routes and add the source, target and edge weight of
-		// each flight
-		for (Iterator<FlightData> iter = routes.iterator(); iter.hasNext();) {
-			while (iter.hasNext()) {
-				FlightData flight = iter.next();
+		/* iterate through routes and add the source, target and edge weight of
+		 	each flight n*/
+		for (Iterator<FlightData> i = routes.iterator(); i.hasNext();) {
+			while (i.hasNext()) {
+				FlightData flight = i.next();
 				System.out.format("%10s%15s", airport.getEdgeSource(flight) + "->" + airport.getEdgeTarget(flight),
 						"£" + airport.getEdgeWeight(flight) + "\n");
 			}
@@ -160,6 +160,7 @@ public class partCDEF extends FlightData {
 			System.out.println("Invalid Departure");
 			departure = scan.nextLine();
 		}
+		
 		System.out.println("Departure: " + departure);
 
 		System.out.println("Enter the location to travel to (or type 'exit' to terminate the program): ");
@@ -178,8 +179,9 @@ public class partCDEF extends FlightData {
 		// create a list path to find the shortest path between two locations
 		List<FlightData> path = DijkstraShortestPath.findPathBetween(airport, departure, destination);
 
-		// while path is null, prompt the user to try again, else let the user
-		// terminate program
+		/* while path is null, prompt the user to try again, else let the user
+		 	terminate program */
+		
 		while (path == null) {
 			System.out.println("This flight is unavailable");
 			System.out.println("Would you like to try again? (type 'yes' if you would)");
@@ -193,6 +195,8 @@ public class partCDEF extends FlightData {
 			}
 
 		}
+		
+		
 		// call method to find shortest path between locations
 
 		System.out.println("");
@@ -202,19 +206,20 @@ public class partCDEF extends FlightData {
 		System.out.println("Printing itinerary for return flight");
 		createItinerary(airport, departure, destination);
 
-		// ask the user if they would like a return, if so then call
-		// shortestPathReturn method
+		/* ask the user if they would like a return, if so then call
+		 	shortestPathReturn method */
 
-		System.out.println("Would you like to check another journey? yes or no.");
-		String checkAgain = scan.nextLine();
-		if (checkAgain.equalsIgnoreCase("yes")) {
-			System.out.println("Program will be run again");
-			flightProgram(airport);
-		}
-
+		while(scan.hasNextLine()) {
+			System.out.println("Would you like to check another journey? yes or no.");
+			String checkAgain = scan.nextLine();
+			if (checkAgain.equalsIgnoreCase("yes")) {
+				System.out.println("Program will be run again");
+				flightProgram(airport);
+			} 
+		} 
+		
 		System.out.println("Terminating program");
 		System.exit(1);
-
 		scan.close();
 
 	}
@@ -229,13 +234,13 @@ public class partCDEF extends FlightData {
 				"Duration", "Cost");
 		System.out.println("");
 
-		// create variables to keep track of the total cost, time, hours and
-		// minutes.
+		/* create variables to keep track of the total cost, time, hours and
+		 	minutes. */
 		int leg = 1;
 		int totalCost = 0;
 		int totalTime = 0;
-		// iterate through the path and print flight data of current flight in
-		// path. Calculate total cost and time.
+		/* iterate through the path and print flight data of current flight in
+		 	path. Calculate total cost and time. */
 		for (Iterator<FlightData> iter = path.iterator(); iter.hasNext();) {
 			while (iter.hasNext()) {
 				FlightData flight = iter.next();
@@ -254,11 +259,10 @@ public class partCDEF extends FlightData {
 		
 		System.out.println("");
 		System.out.println("Total cost of shortest single flight: £" + totalCost);
-		System.out.println("Total time for shortest single journey: " + totalTime + " hrs");
-		/*System.out.println("Total time for shortest single journey: " + hours + " hrs " + minutes + " minutes");*/
+		//System.out.println("Total time for shortest single journey: " + parseHours(totalTime)Edinn + " hrs");
+		/* System.out.println("Total time for shortest single journey: " + hours + " hrs " + minutes + " minutes"); */
 
 		System.out.println("");
-
 		System.out.println("");
 		System.out.println("*************   PART F  *************");
 		System.out.println("");
@@ -285,7 +289,7 @@ public class partCDEF extends FlightData {
 					"Duration", "Cost");
 			System.out.println("");
 
-			// iterate through the path and print flight data of current flight in path. Calculate total cost and time.
+			// iterate through the path and print flight data of current flight in path. Calculate total cost and total time.
 			for (Iterator<FlightData> iter = returnPath.iterator(); iter.hasNext();) {
 				while (iter.hasNext()) {
 					FlightData flight = iter.next();
@@ -299,8 +303,8 @@ public class partCDEF extends FlightData {
 
 			System.out.println("");
 			System.out.println("Cost of return journey: £" + totalCost);
-			System.out.println("Time for return journey: " + totalTime + " hrs");
-			System.out.println("Total time for shortest single journey: " + hours*2 + " hrs " + minutes*2 + " minutes");
+			//System.out.println("Time for return journey: " + parseHours(totalTime) + " hrs");
+			//System.out.println("Total time for shortest single journey: " + parseHours(hours) + " hrs " + parseMinutes(minutes) + " minutes");
 			System.out.println("");
 
 		}
